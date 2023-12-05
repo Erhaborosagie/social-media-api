@@ -32,6 +32,10 @@ public class User implements UserDetails {
 
     private String name;
 
+    private List<User> followers;
+
+    private String picture;
+
     @Enumerated
     private Role role;
 
