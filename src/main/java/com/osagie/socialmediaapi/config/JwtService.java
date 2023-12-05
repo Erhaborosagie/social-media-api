@@ -19,10 +19,6 @@ public class JwtService {
     private static final String SECRET_KEY = "65d8f3b962eef5e07782018ce66027b259f0adf155e4fb74583b09eb688be315";
     public static final long JWT_TOKEN_VALIDITY = 12 * 60 * 60;
 
-    public String extractUsername(String token) {
-        return null;
-    }
-
     private Claims extractAllClaims(String token){
         return Jwts
                 .parserBuilder()
@@ -71,6 +67,7 @@ public class JwtService {
     //check if the token has expired
     private Boolean isTokenExpired(String token) {
         final Date expiration = getExpirationDateFromToken(token);
+        expiration.before(new Date());
         return expiration.before(new Date());
     }
 
