@@ -34,6 +34,9 @@ public class User implements UserDetails {
     @OneToMany
     private List<Post> posts;
 
+    @OneToMany
+    private List<Comment> comments;
+
     private String picture;
 
     @Enumerated
