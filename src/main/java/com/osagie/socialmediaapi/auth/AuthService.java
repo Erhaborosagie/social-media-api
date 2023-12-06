@@ -37,21 +37,18 @@ public class AuthService {
     }
 
     public AuthResponse authenticate(LoginRequest request) {
-        Authentication authenticate = authenticationManager.authenticate(
+        authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword())
         );
 
         var user = userRepository.findByEmail(request.getEmail()).orElseThrow();
         var token = jwtService.generateToken(user);
 
-        SecurityContextHolder.getContext().setAuthentication(authenticate);
-
         return AuthResponse.builder().token(token).build();
     }
 
     public User getCurrentUser() {
-        org.springframework.security.core.userdetails.User principal= (org.springframework.security.core.userdetails.User)
-                SecurityContextHolder.getContext().getAuthentication();
-        return userRepository.findByEmail(principal.getUsername()).orElseThrow();
+        User principal = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return userRepository.findByEmail(principal.getEmail()).orElseThrow();
     }
 }
